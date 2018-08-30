@@ -1,0 +1,80 @@
+tfe             = tf edit $*
+tfd             = tf diff $*
+tfs             = tf status $*
+tfa             = tf add $*
+tfc             = tf checkin $*
+tfu             = tf undo $*
+tfg             = tf get $* /r
+tfh             = tf history $*
+tfds            = tf diff /shelveset:$1
+
+gstat           = git status $*
+gstats          = git status -s $*
+gadd            = git add $*
+gd              = git diff $*
+gds             = git diff --staged $*
+gvdiff          = git difftool --tool=gvimdiff -y $*
+gdiff           = git difftool -y $*
+commit          = git commit $*
+commita         = git commit -a $*
+log             = git log $*
+logp            = git log --date=iso --pretty=format:"%H %C(yellow)%ad %C(bold cyan)%ae %C(green)%s" $*
+pull            = git pull $*
+push            = git push $*
+branch          = git branch $*
+branches        = git log --oneline --decorate --graph --all $*
+cont            = git rebase --continue
+skip            = git rebase --skip
+
+sdc             = sd client
+sdo             = sd opened $*
+sde             = sd edit $*
+sddc            = sd diff -c $1
+sdd             = sd diff $*
+sds             = sd sync ...
+changes         = sd changes -u fareast\abhinab
+shelves         = sd shelves -u fareast\abhinab
+
+pu              = pushd $*
+po              = popd *
+
+..              = pushd ..
+....            = pushd ..\..
+......          = pushd ..\..\..
+
+cd              = cd /d $*
+d               = dir $*
+c               = cls
+l               = dir $*
+t               = type $*
+m               = more $*
+tr              = tree $* /f
+fc              = findstr /snip $1 *.c *.h *.cpp *.asm *.src *.hpp *.inl *.inc
+fh              = findstr /snip $1 *.h *.hpp *.inl *.inc
+fcs             = findstr /snip $1 *.cs
+f               = findstr /snip /c:$1 $2 $3 $4 $5
+g               = gvim $*
+de              = devenv $*
+n               = notepad $*
+n2              = notepad2 $*
+
+k8              = kubectl $*
+
+home            = pushd %_DEVUSER_DIR%\$*
+stuff           = pushd %MYSTUFF%\$*
+code            = pushd %MYSTUFF%\code\$*
+repro           = pushd %MYSTUFF%\code\C#\repros\$*
+
+bc              = build clean $*
+b               = build retail $*
+bd              = build debug $*
+br              = build retail $*
+
+src             = pushd %INETROOT%\src\$*
+wire            = pushd %INETROOT%\src\agent\WireServer\$*
+meta            = pushd %INETROOT%\src\agent\MetadataServer\$*
+
+root            = pushd %INETROOT%\$*
+
+dbg64           = c:\Debuggers\x64\windbg.exe $*
+dbg             = c:\Debuggers\x86\windbg.exe $*
