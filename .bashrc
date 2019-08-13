@@ -126,11 +126,10 @@ code () {
 
 export DOCKER_ID_USER="bonggeek"
 
-export GOROOT=/usr/local/go
-export PATH=$PATH:$GOROOT/bin
+# Customizations for 'Go' language
+export GOROOT=/usr/local/go   # or wherever go is installed
+export GOPATH=$HOME/go        # workspace for go. Only one gopath is allowed
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin:$GOPATH/src/hanarp/bin
+export ENLISTMENTROOT=$GOPATH/src/hanarp # enlistmentroot will be the path to this repository
 
-
-export ENLISTMENTROOT=$HOME/hanarp # or wherever your repo is located
-export GOPATH=$HOME/go:$ENLISTMENTROOT:$ENLISTMENTROOT/vendor
-export PATH=$PATH:${GOPATH//://bin:}/bin
 
