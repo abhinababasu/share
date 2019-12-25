@@ -47,3 +47,5 @@ alias core='pushd ~/hanarp/src/core'
 alias cmd='pushd ~/hanarp/src/cmd'
 alias bin='pushd ~/hanarp/bin'
 
+alias code='pushd ~/OneDrive/Code'
+alias gosrc='pushd ~/OneDrive/Code/go'
