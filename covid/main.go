@@ -76,9 +76,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	json, _ := json.MarshalIndent(states, "  ", "  ")
-	fmt.Println(string(json))
-
 	url := "http://covidtracking.com/api/states.csv"
 	data, e := GetData(url)
 	if e != nil {
