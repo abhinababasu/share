@@ -103,14 +103,14 @@ func main() {
 		state := getStateInfo(states, id)
 
 		pos, _ := strconv.ParseInt(cols[posc], 10, 64)
-		posPerMill := (pos / state.Population) * 1000000
+		posPerMill := (float64(pos) / float64(state.Population)) * 1000000
 
 		death, _ := strconv.ParseInt(cols[deathc], 10, 64)
-		deathPerMill := (death / state.Population) * 1000000
+		deathPerMill := (float64(death) / float64(state.Population)) * 1000000
 
-		deathPerCent := (death / pos) * 100.00
+		deathPerCent := (float64(death) / float64(pos)) * 100
 
-		fmt.Printf("%v,%v,%v,%v,%v,%v,%v,%v,%v\n", state.Name, state.Population, cols[posc],
+		fmt.Printf("%v,%v,%v,%v,%v,%v,%.2f,%.2f,%.2f\n", state.Name, state.Population, cols[posc],
 			cols[negc], cols[hospc], cols[deathc], deathPerMill, posPerMill, deathPerCent)
 	}
 }
