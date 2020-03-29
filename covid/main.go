@@ -86,13 +86,13 @@ func main() {
 	lines := strings.Split(data, "\n")
 	headers := strings.Split(lines[0], ",")
 	fip := getColumnIndex(headers, "fips")
-	pos := getColumnIndex(headers, "positive")
-	neg := getColumnIndex(headers, "negative")
-	hosp := getColumnIndex(headers, "hospitalized")
-	death := getColumnIndex(headers, "death")
+	posc := getColumnIndex(headers, "positive")
+	negc := getColumnIndex(headers, "negative")
+	hospc := getColumnIndex(headers, "hospitalized")
+	deathc := getColumnIndex(headers, "death")
 
 	totalLines := len(lines)
-	fmt.Println("Id,State,Population,Positive,Negative,Hospitalized,Death")
+	fmt.Println("State,Population,Positive,Negative,Hospitalized,Death,DeathPerMill,PosPerMill,DeathPerCent")
 	for i := 1; i < totalLines; i++ {
 		cols := strings.Split(lines[i], ",")
 
@@ -101,6 +101,16 @@ func main() {
 			continue
 		}
 		state := getStateInfo(states, id)
-		fmt.Printf("%v,%v,%v,%v,%v,%v,%v\n", id, state.Name, state.Population, cols[pos], cols[neg], cols[hosp], cols[death])
+
+		pos, _ := strconv.ParseInt(cols[posc], 10, 64)
+		posPerMill := (pos / state.Population) * 1000000
+
+		death, _ := strconv.ParseInt(cols[deathc], 10, 64)
+		deathPerMill := (death / state.Population) * 1000000
+
+		deathPerCent := (death / pos) * 100.00
+
+		fmt.Printf("%v,%v,%v,%v,%v,%v,%v,%v,%v\n", state.Name, state.Population, cols[posc],
+			cols[negc], cols[hospc], cols[deathc], deathPerMill, posPerMill, deathPerCent)
 	}
 }
