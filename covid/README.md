@@ -14,7 +14,7 @@ Running
 -------
 Run using 
 ``` bash
-go run . > daily.csv
+go run . > states.csv
 ```
 
 Work with the csv in excel etc.
