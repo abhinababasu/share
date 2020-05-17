@@ -40,12 +40,17 @@ alias dpush='docker push'
 alias dpull='docker pull'
 alias dlog='docker logs'
 
-
-alias hana='pushd ~/hanarp'
-alias src='pushd ~/hanarp/src'
-alias core='pushd ~/hanarp/src/core'
-alias cmd='pushd ~/hanarp/src/cmd'
-alias bin='pushd ~/hanarp/bin'
+alias hana='pushd $HANARP'
+alias src='pushd $HANARP/src'
+alias core='pushd $HANARP/src/core'
+alias cmd='pushd $HANARP/src/cmd'
+alias bin='pushd $HANARP/bin'
 
 alias code='pushd ~/OneDrive/Code'
 alias gosrc='pushd ~/OneDrive/Code/go'
+
+alias f='grep -rn . -e'
+alias fw='grep -rnw . -e'
+alias fc='grep --include=\*.{c,h,cpp,hpp} -rnw . -e'
+alias fcs='grep --include=\*.cs -rnw . -e'
+alias fgo='grep --include=\*.go -rnw . -e'

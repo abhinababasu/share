@@ -125,4 +125,6 @@ export DOCKER_ID_USER="bonggeek"
 # Customizations for 'Go' language
 #export GOROOT=/usr/local/go/bin   # or wherever go is installed
 export GOPATH=$HOME/go:$HOME/OneDrive/Code/go          # workspace for go. Only one gopath is allowed
+export PATH=$PATH:$HOME/go/bin
 
+export HANARP=$HOME/go/src/hanarp
