@@ -54,3 +54,7 @@ alias fw='grep -rnw . -e'
 alias fc='grep --include=\*.{c,h,cpp,hpp} -rnw . -e'
 alias fcs='grep --include=\*.cs -rnw . -e'
 alias fgo='grep --include=\*.go -rnw . -e'
+
+ff() {
+    find . -name "$1"
+}
