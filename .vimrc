@@ -56,6 +56,5 @@ map <C-f6>  :!build -c %:p:h <cr>   " Ctrl+F6 clean builds
 map <c-t> :silent !tf edit % <cr>   " Ctrl+t checks out file (tf -edit)
 map <c-d> :silent !tf diff % <cr>   " ctrl+d does a tf -diff of the current file
 
-execute pathogen#infect()
 filetype plugin indent on
 set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
