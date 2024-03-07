@@ -8,6 +8,19 @@ case $- in
       *) return;;
 esac
 
+# Added to fix bug with bash on macos
+# https://apple.stackexchange.com/questions/139807/what-does-update-terminal-cwd-do-in-the-terminal-of-os-x
+update_terminal_cwd() {
+    # Identify the directory using a "file:" scheme URL,
+    # including the host name to disambiguate local vs.
+    # remote connections. Percent-escape spaces.
+    local SEARCH=' '
+    local REPLACE='%20'
+    local PWD_URL="file://$HOSTNAME${PWD//$SEARCH/$REPLACE}"
+    printf '\e]7;%s\a' "$PWD_URL"
+}
+
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -61,7 +74,7 @@ parse_git_branch() {
 }
 
 if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;93m\]$(parse_git_branch)\[\033[00m\]\$ '
+    PS1='\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\[\033[01;93m\]$(parse_git_branch)\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -120,11 +133,17 @@ if ! shopt -oq posix; then
   fi
 fi
 
+code () {
+     open /usr/share/code/code
+}
+
 export DOCKER_ID_USER="bonggeek"
 
-# Customizations for 'Go' language
-#export GOROOT=/usr/local/go/bin   # or wherever go is installed
-export GOPATH=$HOME/go:$HOME/OneDrive/Code/go          # workspace for go. Only one gopath is allowed
-export PATH=$PATH:$HOME/go/bin
+export GOROOT=/usr/local/go
+export PATH=$PATH:$GOROOT/bin
 
-export HANARP=$HOME/go/src/hanarp
+
+export ENLISTMENTROOT=$HOME/hanarp # or wherever your repo is located
+export GOPATH=$HOME/go:$ENLISTMENTROOT:$ENLISTMENTROOT/vendor
+export PATH=$PATH:${GOPATH//://bin:}/bin
+
