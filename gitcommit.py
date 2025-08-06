@@ -9,9 +9,9 @@ import subprocess
 
 print("Ensure you are running from the git repository you are trying to analyze.")
 print("Getting commits and parsing")
-# Run the git command and capture the output
+# Run the git command and capture the output (name|email|date)
 result = subprocess.run(
-    ['git', 'log', '--pretty=%an %ad', '--date=format:%Y-%m', '--since=6 months ago'],
+    ['git', 'log', '--pretty=%an|%ae|%ad', '--date=format:%Y-%m', '--since=6 months ago'],
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE,
     text=True
@@ -26,11 +26,26 @@ commit_logs = buffer.getvalue()
 print("Loading data")
 
 # Load commit data
+# Map user identity to a canonical form (name, email)
 commit_data = defaultdict(lambda: defaultdict(int))
+user_map = dict()  # key: canonical_id, value: (name, email)
 
 for line in commit_logs.splitlines():
-    author, date = line.rsplit(" ", 1)
-    commit_data[date.strip()][author.strip()] += 1
+    # Expect format: name|email|date
+    try:
+        author_name, author_email, date = line.split("|")
+    except ValueError:
+        continue  # skip malformed lines
+    # Normalize name by removing company info in parentheses
+    import re
+    name = author_name.strip()
+    base_name = re.sub(r"\s*\(.*\)$", "", name)
+    email = author_email.strip().lower()
+    date = date.strip()
+    # Use email as canonical id if available, else base_name
+    canonical_id = email if email else base_name
+    user_map[canonical_id] = (base_name, email)
+    commit_data[date][canonical_id] += 1
 
 # Convert to DataFrame
 data = []
@@ -43,16 +58,25 @@ df = df.sort_values(by=["Month", "Commits"], ascending=[True, False])
 
 print("Pivot and generating data")
 
-# Pivot to trend over time
-pivot_df = df.pivot(index="Month", columns="Author", values="Commits").fillna(0)
+# Only one row per user (by canonical id)
+data = []
+for month, users in commit_data.items():
+    for canonical_id, count in users.items():
+        name, email = user_map[canonical_id]
+        data.append([month, name, email, count])
 
-# Plot trend
-# Pivot to have authors as rows and months as columns
-pivot_df = df.pivot(index="Author", columns="Month", values="Commits").fillna(0)
+df = pd.DataFrame(data, columns=["Month", "Name", "Email", "Commits"])
+df = df.sort_values(by=["Month", "Commits"], ascending=[True, False])
+
+# Pivot to trend over time
+
+# Aggregate commit counts for users with the same base name
+agg_df = df.groupby(["Name", "Month"]).agg({"Commits": "sum", "Email": "first"}).reset_index()
+pivot_df = agg_df.pivot(index="Name", columns="Month", values="Commits").fillna(0)
 
 # Save to CSV
 print("Saving to csv")
-filename = "commit_trends_by_author.csv"
-pivot_df.to_csv(filename)   
+filename = "commit_trends_by_user.csv"
+pivot_df.to_csv(filename)
 
 print (f"Commit trends saved to {filename}")
