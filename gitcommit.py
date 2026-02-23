@@ -11,7 +11,7 @@ print("Ensure you are running from the git repository you are trying to analyze.
 print("Getting commits and parsing")
 # Run the git command and capture the output (name|email|date)
 result = subprocess.run(
-    ['git', 'log', '--pretty=%an|%ae|%ad', '--date=format:%Y-%m', '--since=6 months ago'],
+    ['git', 'log', '--pretty=%an|%ae|%ad', '--date=format:%Y-%m', '--since=3 months ago'],
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE,
     text=True
